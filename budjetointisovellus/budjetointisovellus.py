@@ -9,20 +9,19 @@ if input("kopioidaanko aiempi kuukausi K/E: ") == "K":
 
     with open("budjetointisovellus.csv", mode = "r")as file:
         tiedosto = csv.reader(file)
-        kuukausi = input("mikä kuukausi kopioidaan(kkvvvv): ")
+        kuukausi = str(input("mikä kuukausi kopioidaan(kk.vvvv): "))
         for lines in tiedosto:
             
-            if int(kuukausi) == int(lines[0]):
+            if kuukausi == lines[0]:
                 budjetti = eval(lines[1])
            
    
 else:
-    vuokra = float(input("anna vuokra: "))
-    vakuutukset = float(input("anna vakuutukset: "))
-    kouluruokailu = float(input("anna kouluruokailu: "))
-    sähkö = float(input("anna sahko: "))
-    liikkuminen = float(input("anna liikkuminen: "))
-    budjetti = {"vuokra":vuokra,"vakuutukset":vakuutukset,"kouluruokailu":kouluruokailu,"sähkö":sähkö,"liikkuminen":liikkuminen}
+    budjetti = {"vuokra":float(input("anna vuokra: ")),
+                "vakuutukset":float(input("anna vakuutukset: ")),
+                "kouluruokailu":float(input("anna kouluruokailu: ")),
+                "sähkö":float(input("anna sahko: ")),
+                "liikkuminen":float(input("anna liikkuminen: "))}
 while True:
     x = input("(n)äytä (l)isää (p)oista (m)uokkaa (loppu):  ")
     if x == "l":
@@ -55,7 +54,7 @@ while True:
         break
             
 if input("tallennetaanko K/E: ") == "K":
-    pvm = input("anna päivämäärä muodossa (kkvvvv): ")
+    pvm = str(input("anna päivämäärä muodossa (kk.vvvv): "))
     rivi = [pvm, budjetti]
     with open("budjetointisovellus.csv", "w")as file:
         tiedosto = csv.writer(file)
@@ -70,14 +69,8 @@ if input("haluatko nädä viime kuukausien ruokakulut (K/E): ") == "K":
         lista = []
         nimet = []
         for lines in tiedosto:
-            if "kouluruokailu" in eval(lines[1]):
-                lista.append(eval(lines[1])["kouluruokailu"])
-            else:
-                lista.append(0)
-            nimet.append(f"{lines[0][:2]}.{lines[0][2:]}")
-
-    print(lista)
-    print(nimet)
+            lista.append(eval(lines[1])["kouluruokailu"])
+            nimet.append(lines[0])
 
     import matplotlib.pyplot as plt
     import numpy as np
